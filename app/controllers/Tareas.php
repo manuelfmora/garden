@@ -4,6 +4,7 @@ include (HELPERS_PATH.'form.php');
 include (CTRL_PATH.'setup.php');
 include (CTRL_PATH.'login.php');
 include (MODEL_PATH.'TareasModel.php');
+//include (MODEL_PATH.'LoginModel.php');
 
 /**
  * Description of Tareas
@@ -11,13 +12,15 @@ include (MODEL_PATH.'TareasModel.php');
  * @author Manuel Francisco Mora Martín.
  */
 class Tareas {
+    
     protected $model=NULL;
     protected $errores=NULL;
     protected $controller=NULL;
+//    protected $loginmodel=NULL;
 
-    public function __construct() {
-        
+    public function __construct() {        
         $this->model=new Tareas_Model();
+        $this->loginmodel=new LoginModel();
         // El gestor solo sería necesario crearlo si editamos o insertamos
         // Inicializamos el gestor de errores que utilizaremos en la vista
         $this->errores=new GestorErrores(
@@ -58,6 +61,31 @@ class Tareas {
                 $this->Ver('Página de inicio', CargaVista('inicio'));
         }
     }
+    /**
+    * CONTROLADOR de listar usuarios
+    */
+    public function userList(){
+        
+       
+        if(! isset($_SESSION['loginok'])){//Si no está iniciada la sesión muestra error
+
+            include_once CTRL_PATH.'error404.php';
+        }
+        else if ($_SESSION['tipousuario'] != 'A'){//Solo puede ver la lista de usuarios los administradores
+            include_once CTRL_PATH.'error404.php';
+        }
+        else{            
+            include_once HELPERS_PATH.'user.php';
+            
+            $user =  $this->loginmodel->GetUsuarios();
+            
+            $this->Ver('Lista Usuarios',
+                    CargaVista('userList', array( 'user'=>$user )));           
+
+        }
+
+    }
+    
     /**
     * CONTROLADOR que cierra la sesión
     */

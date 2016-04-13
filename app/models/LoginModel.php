@@ -4,12 +4,6 @@
  * MODELO de todo lo relacionado con los usuarios
  */
 require_once(MODEL_PATH.'db.php');
-/**
- * Función que comprueba que un usuario y una clave sean correctos
- * @param String $usuario Usuario a comprobar
- * @param String $clave Clave del usuario a comprobar
- * @return boolean True si la clave corresponde al usuario
- */
 
 class LoginModel 
 {
@@ -21,7 +15,12 @@ class LoginModel
     }
     
     
-    
+    /**
+    * Función que comprueba que un usuario y una clave sean correctos
+    * @param String $usuario Usuario a comprobar
+    * @param String $clave Clave del usuario a comprobar
+    * @return boolean True si la clave corresponde al usuario
+    */  
     public function LoginOK($usuario, $clave) {
 
         $sql = "SELECT usuario as user, clave as pass

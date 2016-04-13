@@ -83,7 +83,7 @@
 
                     <?php if (isset($_SESSION['tipousuario']) && $_SESSION['tipousuario'] == 'A'):  //Si es el usuario es de tipo Administrador?>
                         <li class="page-scroll">
-                            <a href="?ctrl=listausuarios" title="Opciones de usuario"><span class="glyphicon glyphicon-cog"></span></a>
+                            <a href="<?=Front_Controller::MakeURL('Tareas', 'userList')?>" title="Opciones de usuario"><span class="glyphicon glyphicon-cog"></span></a>
                         </li>
                     <?php endif; ?>
 
