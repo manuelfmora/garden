@@ -15,7 +15,7 @@
 
                     <?php if (isset($_SESSION['loginok'])) : //Si está iniciada sesión ?>
 
-                        <span style=" float: right; color: #18BC9C;"> 
+                        <span style=" float: right; color: #FFFFFF;"> 
                             <span class="glyphicon glyphicon-user"> </span>  
                             <?php
                             if ($_SESSION['tipousuario'] == 'A') //Si es el usuario es de tipo Administrador
@@ -26,8 +26,8 @@
 
                         </span>
                         <br>
-                        <span style=" float: right; color: #18BC9C;"> 
-                            <a href="<?=Front_Controller::MakeURL('Login', 'closeSession')?>" style="color: #18BC9C;"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión,</a>    
+                        <span style=" float: right; color: #FFFFFF;"> 
+                            <a href="<?=Front_Controller::MakeURL('Login', 'closeSession')?>" style="color: #FFFFFF;"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión,</a>    
                             <?php echo $_SESSION['horainicio']; ?> 
                         </span>
                         <br>
