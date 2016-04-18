@@ -2,7 +2,7 @@
 include (LIB_PATH.'GestorErrores.php');
 include (HELPERS_PATH.'form.php');
 include (CTRL_PATH.'setup.php');
-include (CTRL_PATH.'login.php');
+//include (CTRL_PATH.'login.php');
 include (MODEL_PATH.'TareasModel.php');
 //include (MODEL_PATH.'LoginModel.php');
 
@@ -16,11 +16,11 @@ class Tareas {
     protected $model=NULL;
     protected $errores=NULL;
     protected $controller=NULL;
-//    protected $loginmodel=NULL;
+    protected $loginmodel=NULL;
 
     public function __construct() {        
         $this->model=new Tareas_Model();
-        $this->loginmodel=new LoginModel();
+//        $this->loginmodel=new LoginModel();
         // El gestor solo sería necesario crearlo si editamos o insertamos
         // Inicializamos el gestor de errores que utilizaremos en la vista
         $this->errores=new GestorErrores(
@@ -60,67 +60,7 @@ class Tareas {
                 
                 $this->Ver('Página de inicio', CargaVista('inicio'));
         }
-    }
-    /**
-    * CONTROLADOR de listar usuarios
-    */
-    public function userList(){
-        
-       
-        if(! isset($_SESSION['loginok'])){//Si no está iniciada la sesión muestra error
-
-            include_once CTRL_PATH.'error404.php';
-        }
-        else if ($_SESSION['tipousuario'] != 'A'){//Solo puede ver la lista de usuarios los administradores
-            include_once CTRL_PATH.'error404.php';
-        }
-        else{            
-            include_once HELPERS_PATH.'user.php';
-            
-            $user =  $this->loginmodel->GetUsuarios();
-            
-            $this->Ver('Lista Usuarios',
-                    CargaVista('userList', array( 'user'=>$user )));           
-
-        }
-
-    }
-    
-    /**
-    * CONTROLADOR que cierra la sesión
-    */
-    public function closeSession(){
-        
-       session_unset();
-       session_destroy();
-
-       header('Location: index.php');
-    }
-
-
-    /**
-     * Muestra la pantalla para logearse
-     */
-    public function login(){
-        $this->controller = new Login();
-        if (!EMPTY($_POST['usuario']) && !EMPTY($_POST['clave'])){
-            echo 'ENTRA EN EMTY...................<BR>';
-            $loginok=$this->controller->CreaLogin();
-            
-            if($loginok==FALSE ){
-                echo 'ENTRA EN SESSION_LOGIN FALSE...................<BR>';
-               $this->Ver('Login',
-                    CargaVista('login', array( 'loginok'=>$loginok )));
-                
-            }  
-//            else {
-//                  header('Location: index.php');                       
-//            }
-        }
-        $this->Ver('Login',
-                    CargaVista('login', array()));
-    }
- 
+    } 
     
     /**
      * Muestra la lista de tareas
@@ -142,11 +82,11 @@ class Tareas {
       $provincias = $this->model->listaProvinciasParaSelect();
       if (!isset($_GET['u']))
       {
-      $array = $this->model->GetTareas($_GET['id']);
-      $this->Ver('Modificar tarea', CargaVista('edit', array(
-          'provincias'=>$provincias,
-          'edit'=>$array, 
-          'id'=>$_GET['id'])));
+        $array = $this->model->GetTareas($_GET['id']);
+        $this->Ver('Modificar tarea', CargaVista('edit', array(
+            'provincias'=>$provincias,
+            'edit'=>$array, 
+            'id'=>$_GET['id'])));
       }
       else
       {      
@@ -198,7 +138,16 @@ class Tareas {
         ));
     }
     
-    
+    /**
+     * Funcion que muestra Ver desde Login.php
+     * @param type $titulo
+     * @param type $html
+     */
+    public function Verfuera($titulo,$html){
+        $this->Ver($titulo, $html);
+    }
+
+
     /**
      * Realiza el filtrado de campos y almacena los errores en el gestor de errores
      * @param GestorErrores $this->errores

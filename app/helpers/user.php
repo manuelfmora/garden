@@ -27,10 +27,17 @@ function EscribeUsuarios($usuarios) {
         }
 
         echo '<td>'; //Inicio de columna de opciones
-
-        echo '<p><a href="?ctrl=modificarusuario&id=' . $id . '" class="btn btn-warning" title="Modificar Usuario"><span class="glyphicon glyphicon-pencil"></span></a>';
+        //Creación de la ruta completa con la ID
+        $ruta = Front_Controller::MakeURL("Login","userEdit");
+        $ruta=$ruta."&id=$id"; 
+        
+        echo '<p><a href="'.$ruta.'" class="btn btn-warning" title="Modificar Usuario"><span class="glyphicon glyphicon-pencil"></span></a>';   
+        
+        $ruta = Front_Controller::MakeURL("Login","userDeleted");
+        $ruta=$ruta."&id=$id";
+        
         echo '&nbsp;&nbsp;';
-        echo '<a href="?ctrl=eliminarusuario&id=' . $id . '" class="btn btn-danger" title="Eliminar Usuario"><span class="glyphicon glyphicon-trash"></span></a></p>';
+        echo '<a href="'. $ruta .'" class="btn btn-danger" title="Eliminar Usuario"><span class="glyphicon glyphicon-trash"></span></a></p>';
         echo '</td>'; //Fin de columna de opciones
         echo '</tr>'; //Fin de fila
     }
@@ -43,8 +50,8 @@ function EscribeUsuarios($usuarios) {
  * @return String Dato del campo
  */
 function EscribeCampoUsuario($id, $name) {
-
-    $usuario = GetUnUsuario($id);
-
+    
+    $model=new LoginModel();
+    $usuario =$model->GetUnUsuario($id);    
     return $usuario[$name];
 }

@@ -7,7 +7,9 @@ require_once(MODEL_PATH.'db.php');
 
 class LoginModel 
 {
-    
+    protected $db=NULL;
+
+
     public function __construct() {
         
          /* Creamos la instancia del objeto. Ya estamos conectados */
@@ -28,7 +30,6 @@ class LoginModel
                         WHERE `usuario` LIKE '$usuario'";
 
         $query =$this->db->query($sql);
-        //echo $query;
         
         /* Obtenemos los resultados */
        $user=$query->fetch_array(MYSQLI_ASSOC);
@@ -45,10 +46,10 @@ class LoginModel
      * @param String $usuario Nombre de usuario
      * @param String $clave Contraseña de usuario
      */
-    public function AnhadirUsuario($tipo, $usuario, $clave) {
+    public function InsertaUsuario($tipo, $usuario, $clave) {
        
 
-        $bd->Insertar('usuarios', array('tipo' => $tipo, 'usuario' => $usuario, 'clave' => $clave));
+        $this->db->Insert('usuarios', array('tipo' => $tipo, 'usuario' => $usuario, 'clave' => $clave));
     }
 
     /**
@@ -57,20 +58,18 @@ class LoginModel
      * @return boolean True si existe
      */
     public function ExisteUsuario($usuario) {
-
-       
-
+        
         $sql = "SELECT COUNT(*) as cont
                         FROM `usuarios`
                             WHERE `usuario` LIKE '$usuario'";
 
-        /* Ejecutamos la query */
-        $bd->Consulta($sql);
-
+        /* Ejecutamos la query */        
+        $query =$this->db->query($sql);        
+        
         /* Obtenemos los resultados */
-        $cont = $bd->LeeRegistro();
+       $user=$query->fetch_array(MYSQLI_ASSOC);
 
-        if ($cont['cont'] > 0)
+        if ($user['cont'] > 0)
             return true;
         else
             return false;
@@ -89,10 +88,11 @@ class LoginModel
                         FROM `usuarios`
                             WHERE `id` LIKE '$id'";
 
-        /* Ejecutamos la query */
-        $bd->Consulta($sql);
-
-        $cont = $bd->LeeRegistro(); //Guardamos el resulado de la consulta
+         /* Ejecutamos la query */        
+        $query =$this->db->query($sql);        
+        
+        /* Obtenemos los resultados */
+       $cont=$query->fetch_array(MYSQLI_ASSOC);
 
         if ($cont['cont'] > 0)
             return true;
@@ -108,15 +108,22 @@ class LoginModel
       
         $sql = 'SELECT id as id, usuario as nombre, tipo as tipo 
                 FROM `usuarios`';
+        
+        /* Ejecutamos la query */        
+        $query =$this->db->query($sql);
+        
+        
+        /* Obtenemos los resultados */
+//       $user=$query->fetch_array(MYSQLI_ASSOC);
 
-        /* Ejecutamos la query */
-        $bd->Consulta($sql);
+        
+//        $bd->Consulta($sql);
 
         // Creamos el array donde se guardarán los usuarios
         $usuarios = Array();
 
         /* Realizamos un bucle para ir obteniendo los resultados */
-        while ($line = $bd->LeeRegistro()) {
+        while ($line = $query->fetch_array(MYSQLI_ASSOC)) {
             $usuarios[] = $line;
         }
         return $usuarios;
@@ -148,22 +155,28 @@ class LoginModel
      * @return Array Usuario y clave
      */
     public function GetUnUsuario($id) {
-      
+        
         $sql = "SELECT usuario, clave
                     FROM `usuarios`
                         WHERE `id`=$id";
 
-        /* Ejecutamos la query */
-        $bd->Consulta($sql);
+        /* Ejecutamos la query */        
+        $query =$this->db->query($sql);
+        
+        
+        /* Obtenemos los resultados */
+//       $user=$query->fetch_array(MYSQLI_ASSOC);
 
-        // Creamos el array donde se guardarán las provincias
+        
+//        $bd->Consulta($sql);
+
+        // Creamos el array donde se guardarán los usuarios
         $usuario = Array();
 
         /* Realizamos un bucle para ir obteniendo los resultados */
-        while ($line = $bd->LeeRegistro()) {
+        while ($line = $query->fetch_array(MYSQLI_ASSOC)) {
             $usuario[] = $line;
-        }
-
+        }        
         return $usuario[0];
     }
 
@@ -201,11 +214,11 @@ class LoginModel
                             WHERE `usuario` LIKE '$nuevonombre'
                                 AND `id` NOT LIKE '$id'";
 
-        /* Ejecutamos la query */
-        $bd->Consulta($sql);
-
+        /* Ejecutamos la query */        
+        $query =$this->db->query($sql);        
+        
         /* Obtenemos los resultados */
-        $cont = $bd->LeeRegistro();
+       $cont=$query->fetch_array(MYSQLI_ASSOC);
 
         if ($cont['cont'] > 0)
             return true;
@@ -219,10 +232,11 @@ class LoginModel
      * @param Int $id Identificador del usuario
      */
     public function ModificaUsuarioEnBD($registro, $id) {
-
+  
+        /* Ejecutamos la query */        
+         $this->db->Update('usuarios',$registro, $id);
+        
    
-        /* Ejecutamos la query */
-        $bd->Modificar('usuarios', $registro, $id);
     }
 
     /**
@@ -232,6 +246,6 @@ class LoginModel
     public function EliminarUsuarioEnBD($id) {
       
         /* Ejecutamos la query */
-        $bd->Eliminar('usuarios', $id);
+        $this->db->delete('usuarios', $id);
     }
 }

@@ -13,7 +13,7 @@ class Tareas_Model
 	 * Constructor
 	 */
 	public function __construct()
-	{       echo 'Entra constructor TareasModel<br>';	
+	{       	
 		$this->db=Db::getInstance();//conexion  base de datos	
 	}
          /**

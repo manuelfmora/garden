@@ -1,6 +1,6 @@
 <?php
 /**
-* Autor Enrique Mora Trigueros.
+* Autor Manuel Francisco Mora Martín.
 * Creación 11 nov. 2015.
 * Versión XX
 */

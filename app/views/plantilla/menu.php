@@ -1,36 +1,6 @@
-<!--
-<nav class="navbar navbar-inverse">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-2">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-             <a class="navbar-brand" href="<?=Front_Controller::MakeURL('Tareas')?>">Inicio</a>
-    </div>
 
-    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-2">
-      <ul class="nav navbar-nav">
-        
-        <li class="dropdown">         
-          
-        </li>
-      </ul>
-      
-      <ul class="nav navbar-nav navbar-right">
-       
-       <li><a href="<?=Front_Controller::MakeURL('Tareas', 'Listar')?>">Listar</a></li>
-       <li><a href="<?=Front_Controller::MakeURL('Tareas', 'Add')?>">Nueva Tarea</a></li>
-       <li><a href="<?=Front_Controller::MakeURL('Tareas', 'Buscar')?>">Buscar</a></li>
-       <li><a href="<?=Front_Controller::MakeURL('Tareas', 'Login')?>">Login</a></li>
-        <li><a href="#">Opciones</a></li>
-      </ul>
-    </div>
-  </div>
-</nav>-->
- <nav class="navbar navbar-default navbar-fixed-top">
+<!-- <nav class="navbar navbar-default navbar-fixed-top">-->
+ <nav class="navbar navbar-default">
         <div class="container">
             <!-- Brand and toggle get grouped for better mobile display -->
             <div class="navbar-header page-scroll">
@@ -57,7 +27,7 @@
                         </span>
                         <br>
                         <span style=" float: right; color: #18BC9C;"> 
-                            <a href="<?=Front_Controller::MakeURL('Tareas', 'closeSession')?>" style="color: #18BC9C;"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión,</a>    
+                            <a href="<?=Front_Controller::MakeURL('Login', 'closeSession')?>" style="color: #18BC9C;"><span class="glyphicon glyphicon-log-out"></span> Cerrar sesión,</a>    
                             <?php echo $_SESSION['horainicio']; ?> 
                         </span>
                         <br>
@@ -77,19 +47,19 @@
 
                     <?php if (!isset($_SESSION['loginok'])) : //Si está iniciada sesión ?>    
                         <li class="page-scroll">
-                            <a href="<?=Front_Controller::MakeURL('Tareas', 'Login')?>" title="Login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
+                            <a href="<?=Front_Controller::MakeURL('Login', 'login')?>" title="Login"><span class="glyphicon glyphicon-log-in"></span> Login</a>
                         </li>
                     <?php endif; ?>    
 
                     <?php if (isset($_SESSION['tipousuario']) && $_SESSION['tipousuario'] == 'A'):  //Si es el usuario es de tipo Administrador?>
                         <li class="page-scroll">
-                            <a href="<?=Front_Controller::MakeURL('Tareas', 'userList')?>" title="Opciones de usuario"><span class="glyphicon glyphicon-cog"></span></a>
+                            <a href="<?=Front_Controller::MakeURL('Login', 'userList')?>" title="Opciones de usuario"><span class="glyphicon glyphicon-cog"></span></a>
                         </li>
                     <?php endif; ?>
 
                     <?php if (isset($_SESSION['tipousuario']) && $_SESSION['tipousuario'] == 'O'):  //Si es el usuario es de tipo Opeario ?>
                         <li class="page-scroll">
-                            <a href="?ctrl=modificarusuarioOPE&id=<?= $_SESSION['idusuario'] ?>" title="Opciones de usuario"><span class="glyphicon glyphicon-cog"></span></a>
+                            <a href="?c=Login&a=userEdit_O&id=<?= $_SESSION['idusuario'] ?>" title="Opciones de usuario"><span class="glyphicon glyphicon-cog"></span></a>
                         </li>
                     <?php endif; ?>
 

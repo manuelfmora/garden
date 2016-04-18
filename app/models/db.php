@@ -29,8 +29,8 @@ Class Db{
         
         private function conectar(){
             if (file_exists('config.php')){
-                include_once 'config.php'; 
-                echo 'Entra en la función Conectar....................<br>';            
+                
+                include_once 'config.php';                             
                 $this->conectado($GLOBALS['db_conf']);
             }
         }
@@ -38,7 +38,7 @@ Class Db{
         /*Realiza la conexión a la base de datos.*/
 	private function conectado($conf){
           
-            echo 'Entra en la función CONECTADO<br>';
+            
                 if (!is_array($conf)) {
                     echo "<p>Faltan parámetros de configuración</p>";
                     //var_dump($conf);                    
@@ -51,11 +51,12 @@ Class Db{
 		
 	}
 
-	/*Método para ejecutar una sentencia sql*/
-	public function ejecutar($instruccion){
-		$this->result=mysqli_query($this->link,$instruccion);//($instruccion,$this->link)
-		return $this->result;
-	}	
+//	/*Método para ejecutar una sentencia sql*/
+//	public function ejecutar($instruccion){
+//		$this->result=mysqli_query($this->link,$instruccion);//($instruccion,$this->link)
+//		return $this->result;
+//	}
+        
 	/*Método para ejecutar una sentencia sql*/
 	public function query ($instruccion){            
 		$this->result=mysqli_query($this->link,$instruccion);//($instruccion,$this->link)
@@ -118,7 +119,8 @@ Class Db{
             $this->query($sql);
 
         }
-          /**
+    
+        /**
         * Inserta en la base de datos.
         * @param $table tabla donde se insertan los datos.
         * @param $array datos que se insertan.
@@ -140,6 +142,23 @@ Class Db{
           $sql = "INSERT INTO $table ($keysimplode) VALUES ($valuesimplode)";
           $this->Query($sql);
         }
+        
+        /**
+        * Borra un registro en la Base de Datos
+        * @param String $tabla Nombre de la tabla
+        * @param String $id Identificador
+        * @return mixed
+        */
+       public function delete($tabla, $id) {
+
+           $sql = "DELETE FROM `$tabla` WHERE id=$id";
+
+           $rs = $this->link->query($sql);
+           if (!$rs) {
+               $this->ShowError();
+           }
+           return $rs;
+       }
         
 
 
